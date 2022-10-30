@@ -23,20 +23,18 @@
     </div>
     <div class="flex flex-col justify-around gap-5 lg:gap-05">
       <BuscaPersonajes @busqueda="getMessage" />
-
-
       <div class="flex flex-col">
-        <button @click="conseguirDatos(busqueda)" type="button"
-          class="btn">
+        <button @click="conseguirDatos(busqueda)" type="button" class="btn">
           Obtener personaje
         </button>
+        <AlertaBusqueda v-if = "this.exitoBusqueda" />
       </div>
-
     </div>
   </div>
-  <div class="flex flex-row flex-wrap">
+  <div class="flex flex-row flex-wrap justify-center">
     <FichaDatos v-for="personaje in personajes" :key="personaje.char_id" :nombreRecibido="personaje.name"
-      :imagenRecibida="personaje.img" :cumpleañosRecibido="personaje.birthday" :apodoRecibido="personaje.nickname" :ocupacionRecibida="personaje.occupation"/>
+      :imagenRecibida="personaje.img" :cumpleañosRecibido="personaje.birthday" :apodoRecibido="personaje.nickname"
+      :ocupacionRecibida="personaje.occupation" />
   </div>
 
 
@@ -45,16 +43,19 @@
 import axios from "axios";
 import BuscaPersonajes from "./BuscaPersonajes.vue";
 import FichaDatos from "./FichaDatos.vue";
+import AlertaBusqueda from "./AlertaBusqueda.vue";
 
 export default {
   name: "FichaPersonaje",
   components: {
     BuscaPersonajes,
     FichaDatos,
+    AlertaBusqueda,
   },
   data() {
     return {
       personajes: [],
+      exitoBusqueda: false,
     };
   },
 
@@ -66,6 +67,14 @@ export default {
         );
 
         this.personajes = response.data;
+
+        if (this.personajes.length === 0) {
+          this.exitoBusqueda = true;
+
+        }else{
+          this.exitoBusqueda = false;
+        }
+
       } catch (error) {
         console.log(error);
       }
@@ -73,6 +82,7 @@ export default {
     getMessage(value) {
       this.busqueda = value;
     },
+   
   },
 };
 </script>
@@ -80,7 +90,8 @@ export default {
 .miniaturas {
   @apply flex w-24 h-24 rounded-3xl hover:scale-110 transition duration-500;
 }
-.btn{
-  @apply  bg-green-500 rounded-full rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2 hover:bg-green-400 focus:outline-none;
+
+.btn {
+  @apply bg-green-500 rounded-full rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2 hover:bg-green-400 focus:outline-none;
 }
 </style>

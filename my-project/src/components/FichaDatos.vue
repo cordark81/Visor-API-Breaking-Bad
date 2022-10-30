@@ -26,7 +26,7 @@ export default {
         imagenRecibida: { type: String },
         cumpleañosRecibido: { type: String },
         apodoRecibido: { type: String },
-        ocupacionRecibida :{type: String}
+        ocupacionRecibida :{type:Array}
         
     }
 
