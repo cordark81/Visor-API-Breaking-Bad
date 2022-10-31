@@ -10,7 +10,7 @@
 
         <img
           src="https://images.amcnetworks.com/amc.com/wp-content/uploads/2015/04/cast_bb_700x1000_walter-white-lg.jpg"
-          alt="image" class="w-24 h-24 rounded-full  hover:scale-110 transition duration-500 ">
+          alt="image" class="w-32 h-32 rounded-full  hover:scale-110 transition duration-500 ">
         <img
           src="https://vignette.wikia.nocookie.net/breakingbad/images/1/1f/BCS_S4_Gustavo_Fring.jpg/revision/latest?cb=20180824195925"
           alt="image" class="miniaturas">
