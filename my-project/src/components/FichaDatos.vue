@@ -10,17 +10,23 @@
             </p>
         </div>
         <div class="px-6 pt-4 pb-2 bg-white">
-            <button class="btn inline-block" @click="anaidirFavoritos" >Añadir a favoritos</button>
+            <button class="btn inline-block" @click="anaidirFavoritos">Añadir a favoritos</button>
 
-            <button class="btn inline-block">Remover favoritos</button>
-                     
+            <button class="btn inline-block" @click="verFavoritos">Remover favoritos</button>
+
 
         </div>
     </div>
 </template>
 <script>
 
+import fs from "fs"
+import { pushScopeId } from "vue";
+
 export default {
+    components: {
+        fs,
+    },
 
     props: {
         nombreRecibido: { type: String },
@@ -28,31 +34,34 @@ export default {
         cumpleañosRecibido: { type: String },
         apodoRecibido: { type: String },
         ocupacionRecibida: { type: Array },
-        personajesRecibidos: {type:Array}
-        
+        personajesRecibidos: { type: Array }
+
 
     },
     data() {
         return {
-            
+
         }
     },
     methods: {
         anaidirFavoritos() {
-           
-          this.personajesRecibidos.forEach(element => {
-            console.log(element);
-          });
+            if (localStorage.getItem("favoritos") == null) {
+                localStorage.setItem("favoritos", JSON.stringify(this.personajesRecibidos.filter((el) => el.name == this.nombreRecibido)));
+            } else {
+                let datos = JSON.parse(localStorage.getItem("favoritos"));
+
+                if ((datos.reduce((acc, el) => el.name == this.nombreRecibido ? ++acc : acc, 0)) == 0) {
+                    datos = datos.concat(this.personajesRecibidos.filter((el) => el.name == this.nombreRecibido))
+                    localStorage.setItem("favoritos", JSON.stringify(datos))
+                }
+            }
         },
         verFavoritos() {
-
+            let prueba = JSON.parse(localStorage.getItem("favoritos"));
+           
         }
     }
 
 }
-
-
-
-
 
 </script>
