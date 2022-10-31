@@ -10,15 +10,16 @@
             </p>
         </div>
         <div class="px-6 pt-4 pb-2 bg-white">
-            <button
-                class="btn inline-block">Añadir a favoritos</button>
-           
-            <button
-                class="btn inline-block">Remover favoritos</button>
+            <button class="btn inline-block" @click="anaidirFavoritos" >Añadir a favoritos</button>
+
+            <button class="btn inline-block">Remover favoritos</button>
+                     
+
         </div>
     </div>
 </template>
 <script>
+
 export default {
 
     props: {
@@ -26,8 +27,26 @@ export default {
         imagenRecibida: { type: String },
         cumpleañosRecibido: { type: String },
         apodoRecibido: { type: String },
-        ocupacionRecibida :{type:Array}
+        ocupacionRecibida: { type: Array },
+        personajesRecibidos: {type:Array}
         
+
+    },
+    data() {
+        return {
+            
+        }
+    },
+    methods: {
+        anaidirFavoritos() {
+           
+          this.personajesRecibidos.forEach(element => {
+            console.log(element);
+          });
+        },
+        verFavoritos() {
+
+        }
     }
 
 }

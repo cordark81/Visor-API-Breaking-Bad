@@ -1,29 +1,10 @@
 <template>
   <div class="flex flex-row flex-wrap gap-5   bg-gray-700  rounded-lg px-10 py-10 mt-10 mx-10 drop-shadow-2xl ">
-    <div class="flex flex-row p-2 w-4/6 flex-1">
-      <img src="../../../imagenes/d3bbd00fc97e601c6dabca395af2e7f6.png" alt="imagen bb"
-        class="rounded-xl hover:scale-110 transition duration-500" width="200" height="200">
-      <div class="flex flex-row justify-evenly ml-10 gap-5 flex-1 mt-5 invisible lg:visible">
-        <img src="https://s-i.huffpost.com/gen/1317262/images/o-ANNA-GUNN-facebook.jpg" alt="image" class="miniaturas">
-        <img
-          src="https://vignette.wikia.nocookie.net/breakingbad/images/9/95/JesseS5.jpg/revision/latest?cb=20120620012441"
-          alt="image" class="miniaturas">
-
-        <img
-          src="https://images.amcnetworks.com/amc.com/wp-content/uploads/2015/04/cast_bb_700x1000_walter-white-lg.jpg"
-          alt="image" class="w-24 h-24 rounded-full  hover:scale-110 transition duration-500 ">
-        <img
-          src="https://vignette.wikia.nocookie.net/breakingbad/images/1/1f/BCS_S4_Gustavo_Fring.jpg/revision/latest?cb=20180824195925"
-          alt="image" class="miniaturas">
-
-        <img
-          src="https://vignette.wikia.nocookie.net/breakingbad/images/b/b4/Jane.jpg/revision/latest?cb=20090621233653"
-          alt="image" class="miniaturas">
-      </div>
-    </div>
+    <BannerPrincipal/>
     <div class="flex flex-col justify-around gap-5 lg:gap-05">
       <BuscaPersonajes @busqueda="getMessage" />
-      <div class="flex flex-col">
+      <div class="flex flex-col gap-4">
+        <button type="button" class="btn">Ver favoritos </button>
         <button @click="conseguirDatos(busqueda)" type="button" class="btn">
           Obtener personaje
         </button>
@@ -32,9 +13,9 @@
     </div>
   </div>
   <div class="flex flex-row flex-wrap justify-center">
-    <FichaDatos v-for="personaje in personajes" :key="personaje.char_id" :nombreRecibido="personaje.name"
+    <FichaDatos :personajesRecibidos="personajes" v-for="personaje in personajes" :key="personaje.char_id" :nombreRecibido="personaje.name"
       :imagenRecibida="personaje.img" :cumpleañosRecibido="personaje.birthday" :apodoRecibido="personaje.nickname"
-      :ocupacionRecibida="personaje.occupation" />
+      :ocupacionRecibida="personaje.occupation"/>
   </div>
 
 
@@ -43,19 +24,22 @@
 import axios from "axios";
 import BuscaPersonajes from "./BuscaPersonajes.vue";
 import FichaDatos from "./FichaDatos.vue";
+import BannerPrincipal from "./BannerPrincipal.vue";
 import AlertaBusqueda from "./AlertaBusqueda.vue";
 
 export default {
-  name: "FichaPersonaje",
+  name: "FichaPersonaje", 
   components: {
     BuscaPersonajes,
     FichaDatos,
     AlertaBusqueda,
+    BannerPrincipal,
   },
   data() {
     return {
       personajes: [],
       exitoBusqueda: false,
+      favoritos: [],
     };
   },
 
@@ -68,20 +52,17 @@ export default {
 
         this.personajes = response.data;
 
-        if (this.personajes.length === 0) {
-          this.exitoBusqueda = true;
-
-        }else{
-          this.exitoBusqueda = false;
-        }
+        (this.personajes.length === 0)?this.exitoBusqueda = true:this.exitoBusqueda = false;
 
       } catch (error) {
         console.log(error);
       }
+      FichaDatos.personajesRecibidos = this.personajes;
     },
     getMessage(value) {
       this.busqueda = value;
     },
+  
    
   },
 };
