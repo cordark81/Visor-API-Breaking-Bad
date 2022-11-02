@@ -1,24 +1,21 @@
 <template>
-    <div class=" max-w-sm rounded overflow-hidden shadow-lg mt-10 ml-10">
-        <img class="w-full h-96" :src="imagenRecibida" alt="Sunset in the mountains">
-        <div class="px-6 py-4 bg-white">
-            <div class="font-bold text-xl mb-2"> {{ nombreRecibido }} </div>
-            <p class="text-gray-700 text-base">
-                Fecha Nacimiento: {{ cumpleañosRecibido }}<br>
+    <div class=" flex flex-row w-96 h-64 rounded-3xl overflow-hidden shadow-lg mt-10 ml-10">
+        <img class="w-48 h-64" :src="imagenRecibida" alt="Sunset in the mountains">
+        <div class="" style="background-image: url(../../imagenes/bb.jpg)">
+            <div class="font-bold text-xl text-center mb-2 text-amber-400"> {{ nombreRecibido }} </div>
+            <p class="text-white text-base text-left ml-2">
+                Fecha Nacimiento: <br>{{ cumpleañosRecibido }}<br>
                 Apodo: {{ apodoRecibido }}<br>
                 Ocupacion: {{ ocupacionRecibida }}
             </p>
-        </div>
-        <div class="px-6 pt-4 pb-2 bg-white">
-            <button class="btn inline-block" @click="anaidirFavoritos">Añadir a
+            <button v-if="anaidirBtn" class="btn" @click="anaidirFavoritos">Añadir a
                 favoritos</button>
-            <button class="btn inline-block" @click="eliminarFavoritos">Eliminar de favoritos</button>
+            <button v-if="eliminarBtn" class="btn" @click="eliminarFavoritos">Eliminar de
+                favoritos</button>
         </div>
     </div>
 </template>
 <script>
-import { watch } from 'vue';
-
 
 export default {
 
@@ -27,24 +24,19 @@ export default {
         imagenRecibida: { type: String },
         cumpleañosRecibido: { type: String },
         apodoRecibido: { type: String },
-        ocupacionRecibida: { type: Array },
+        ocupacionRecibida: { type: String },
         personajesRecibidos: { type: Array }
 
 
     },
     data() {
         return {
-           // btnEliminar: false, varibales para hacer desaparecer botones en el aire
-           // btnAnaidir: true,
+            actualizacion: false
+
         }
     },
     methods: {
-        /* pendiente de hacer funcionar
-        favoritoCheck() {
-            //si esta en localStorage devuelve 1, sino 0
-            let datos = JSON.parse(localStorage.getItem("favoritos"));
-            return datos.reduce((acc, el) => el.name == this.nombreRecibido ? ++acc : acc, 0);
-        },*/
+
         anaidirFavoritos() {
             //si favoritos esta vacio, almacenamos en localStorage los datos de la ficha seleccionada
             if (localStorage.getItem("favoritos") == null) {
@@ -55,45 +47,43 @@ export default {
                 if (datos.reduce((acc, el) => el.name == this.nombreRecibido ? ++acc : acc, 0) == 0) {
                     datos = datos.concat(this.personajesRecibidos.filter((el) => el.name == this.nombreRecibido))
                     localStorage.setItem("favoritos", JSON.stringify(datos))
-
+                    this.actualizacion = true;
 
                 }
             }
         },
-        eliminarFavoritos(){
+        eliminarFavoritos() {
             let datos = JSON.parse(localStorage.getItem("favoritos"));
-            console.log(datos);
-            if(localStorage.getItem("favoritos")!=null){
-                //cambiamos las condiciones para el borrado
-                if (datos.reduce((acc, el) => el.name == this.nombreRecibido ? ++acc : acc, 0) == 1) {
-                    datos = datos.filter((el)=>el.name!=this.nombreRecibido);
-                    localStorage.setItem("favoritos", JSON.stringify(datos))
-                }
-            }
-            
-        }
-        /*proyecto de algo
-        btnsCheck() {
-            if (datos.reduce((acc, el) => el.name == this.nombreRecibido ? ++acc : acc, 0) == 0) {
 
-                this.btnEliminar = true;
-            } else {
-                this.btnEliminar = false;
-
+            //cambiamos las condiciones para el borrado
+            if (datos.reduce((acc, el) => el.name == this.nombreRecibido ? ++acc : acc, 0) == 1) {
+                datos = datos.filter((el) => el.name != this.nombreRecibido);
+                localStorage.setItem("favoritos", JSON.stringify(datos))
+                this.actualizacion = true;
             }
         },
-        watch: {
-            btnEliminar(newValue, oldValue) {
-                if (newValue == true) {
-                    btnAnaidir = false;
-                } else {
-                    btnAnaidir = true;
-                }
-            }
-        }*/
+    },
+
+    computed: {
+
+        anaidirBtn() {
+            if (this.actualizacion)
+                this.actualizacion = false
+
+            const favoritos = JSON.parse(localStorage.getItem("favoritos"));
+
+            return (favoritos != null) ? (favoritos.reduce((acc, el) => el.name == this.nombreRecibido ? ++acc : acc, 0) == 0) : true;
+        },
+        eliminarBtn() {
+            if (this.actualizacion)
+                this.actualizacion = false
+
+            const favoritos = JSON.parse(localStorage.getItem("favoritos"));
+
+            return (favoritos != null) ? (favoritos.reduce((acc, el) => el.name == this.nombreRecibido ? ++acc : acc, 0) != 0) : false;
+        }
 
     }
-
 }
 
 </script>

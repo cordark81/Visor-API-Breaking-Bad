@@ -1,5 +1,6 @@
 <template>
-  <div class="flex flex-row flex-wrap gap-5   bg-gray-700  rounded-lg px-10 py-10 mt-10 mx-10 drop-shadow-2xl ">
+  <div class="flex flex-row flex-wrap gap-5 bg-cover bg-no-repeat  rounded-lg px-10 py-10 mt-10 mx-10 drop-shadow-2xl "
+  style="background-image: url(../../imagenes/bb.jpg)">
     <BannerPrincipal />
     <div class="flex flex-col justify-around gap-5 lg:gap-05">
       <BuscaPersonajes @busqueda="getMessage" />
@@ -39,7 +40,8 @@ export default {
     return {
       personajes: [],
       exitoBusqueda: false,
-     
+      //de momentos sin usar favoritos: []
+
     };
   },
 
@@ -52,23 +54,44 @@ export default {
 
         this.personajes = response.data;
 
+
         (this.personajes.length === 0) ? this.exitoBusqueda = true : this.exitoBusqueda = false;
 
       } catch (error) {
         console.log(error);
       }
-      FichaDatos.personajesRecibidos = this.personajes;
+        //ocupacion es un array originalmente, lo convierto en un String
+        this.personajes=this.personajes.map((el) =>{
+          el.occupation=el.occupation.toString()
+          return el;
+        } )
+
+
+           FichaDatos.personajesRecibidos = this.personajes;
     },
     getMessage(value) {
       this.busqueda = value;
     },
     verFavoritos() {
-      let prueba = JSON.parse(localStorage.getItem("favoritos"));
-      this.personajes=prueba;
+      let favoritos = JSON.parse(localStorage.getItem("favoritos"));
+      this.personajes = favoritos;
+    },
+    //devuelve los personajes sin los favoritos SIN USAR
+    comprobarFavoritos(busquedaPersonajes) {
+      let favoritos = JSON.parse(localStorage.getItem("favoritos"));
+      if(favoritos!=null){
+      let filtrado = busquedaPersonajes.filter((el) => {
+        if (favoritos.reduce((acc, elfavo) => elfavo.name == el.name ? ++acc : acc, 0) == 0) {
+          return el;
+        };
+      })
+   
+       return filtrado;
     }
-
-  },
+  }
+  }
 };
+
 </script>
 <style>
 .miniaturas {
@@ -76,6 +99,6 @@ export default {
 }
 
 .btn {
-  @apply bg-green-500 rounded-full rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2 hover:bg-green-400 focus:outline-none;
+  @apply ml-10 bg-green-500 rounded-full px-3 py-1 text-xs font-semibold text-white mr-2 mb-2 mt-7 hover:bg-green-700 focus:outline-none;
 }
 </style>
