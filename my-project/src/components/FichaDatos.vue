@@ -14,6 +14,7 @@
             <button v-if="eliminarBtn" class="btn" @click="eliminarFavoritos">Eliminar de
                 favoritos</button>
                 <AlertaModal v-if="mensajeEliminar" :modal="true" :mensaje="modalEliminar"/>
+                
         </div>
     </div>
 </template>
@@ -49,17 +50,18 @@ export default {
 
         anaidirFavoritos() {
             this.mensajeAnaidir=true;
+            let datos = JSON.parse(localStorage.getItem("favoritos"));
             //si favoritos esta vacio, almacenamos en localStorage los datos de la ficha seleccionada
-            if (localStorage.getItem("favoritos") == null) {
+            if (datos == null) {
                 localStorage.setItem("favoritos", JSON.stringify(this.personajesRecibidos.filter((el) => el.name == this.nombreRecibido)));
             } else {
-                let datos = JSON.parse(localStorage.getItem("favoritos"));
+               
                 //si la funcion es igual a 0 modificamos los datos y añadimos la nueva ficha a almacenar 
                 if (datos.reduce((acc, el) => el.name == this.nombreRecibido ? ++acc : acc, 0) == 0) {
                     datos = datos.concat(this.personajesRecibidos.filter((el) => el.name == this.nombreRecibido))
                     localStorage.setItem("favoritos", JSON.stringify(datos))
                     this.actualizacion = true;
-
+                  
                 }
             }
            
@@ -74,16 +76,10 @@ export default {
                 datos = datos.filter((el) => el.name != this.nombreRecibido);
                 localStorage.setItem("favoritos", JSON.stringify(datos))
                 this.actualizacion = true;
-                //refrescar si pulso eliminar estando en el menu de ver favoritos PENDIENTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //se dispara si se queda vació!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-                //refresca la pagina y provoca que no salga el mensaje de eliminar como es debido!!!!!!!!
-                
-                    this.$parent.verFavoritos();
-                
-                
-            }
-           
-            
+                //si eliminamos en una busqueda va a la pantalla de favoritos
+          
+                this.$parent.verFavoritos();
+                            }           
         },
     },
 

@@ -2,7 +2,7 @@
        <div class="flex flex-row p-2 w-4/6 flex-1">
       <img src="../../../imagenes/d3bbd00fc97e601c6dabca395af2e7f6.png" alt="imagen bb"
         class="rounded-xl hover:scale-110 transition duration-500" width="200" height="200">
-      <div class="flex flex-row justify-evenly ml-10 gap-5 flex-1 mt-5 invisible lg:visible">
+      <div class="flex flex-row justify-around flex-1 ml-10 gap-5 mt-5 invisible lg:visible">
         <img src="https://s-i.huffpost.com/gen/1317262/images/o-ANNA-GUNN-facebook.jpg" alt="image" class="miniaturas">
         <img
           src="https://vignette.wikia.nocookie.net/breakingbad/images/9/95/JesseS5.jpg/revision/latest?cb=20120620012441"
