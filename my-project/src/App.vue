@@ -6,18 +6,18 @@
     <div class="flex flex-col justify-around gap-5 lg:gap-05">
       <BuscaPersonajes @busqueda="getMessage" />
       <div class="flex flex-col gap-4">
-        <button @click="verFavoritos" type="button" class="btn">Ver favoritos </button>
+        <button @click="verFavoritos" type="button" class="btnBanner">Ver favoritos </button>
         <div v-if="favoritosVacios">
           <AlertaModal :modal="true" :mensaje="modalFavoritos" />
         </div>
-        <button @click="conseguirDatos(busqueda)" type="button" class="btn">
+        <button @click="conseguirDatos(busqueda)" type="button" class="btnBanner">
           Obtener personaje
         </button>
         <AlertaModal v-if="this.exitoBusqueda" :modal="true" :mensaje="modalBusqueda" />
       </div>
     </div>
   </div>
- <div class="flex flex-row flex-wrap justify-center">
+  <div class="flex flex-row flex-wrap justify-center">
     <FichaDatos :personajesRecibidos="personajes" v-for="personaje in personajes" :key="personaje.char_id"
       :nombreRecibido="personaje.name" :imagenRecibida="personaje.img" :cumpleañosRecibido="personaje.birthday"
       :apodoRecibido="personaje.nickname" :ocupacionRecibida="personaje.occupation" />
@@ -69,7 +69,7 @@ export default {
 
 
         (this.personajes.length === 0) ? this.exitoBusqueda = true : this.exitoBusqueda = false;
-        this.spinnerActivo=false;
+        this.spinnerActivo = false;
       } catch (error) {
         console.log(error);
       }
@@ -88,14 +88,15 @@ export default {
       this.favoritosVacios = false;
       setTimeout(() => {
         let favoritos = JSON.parse(localStorage.getItem("favoritos"));
-        
-        if(favoritos.length>0){
+
+        if (favoritos.length > 0) {
           favoritos.length == 0 ? this.favoritosVacios = true : this.favoritosVacios = false;
-    
-        }else{
-          this.favoritosVacios=true;
+
+        } else {
+          this.favoritosVacios = true;
         }
         this.personajes = favoritos;
+
       }, 1500);
 
     },
@@ -113,17 +114,7 @@ export default {
       }
     }
   },
-  //NO FUNCIONA!!!!!!!!!!!!!!!!!!!!!!!!SIN USAR
-  computed: {
-    flagFavoritos() {
-      if (this.favoritosVacios)
-        this.favoritosVacios = false
 
-      const favoritos = JSON.parse(localStorage.getItem("favoritos"));
-
-      return (favoritos != null) ? this.favoritosVacios = true : this.favoritosVacios = false;
-    },
-  }
 };
 
 </script>
@@ -133,7 +124,10 @@ export default {
   @apply flex w-28 h-28 rounded-3xl hover:scale-110 transition duration-500;
 }
 
-.btn {
+.btnBanner {
   @apply ml-10 bg-green-500 rounded-full px-3 py-1 text-xs font-semibold text-white mr-2 mb-2 mt-7 hover:bg-green-700 focus:outline-none;
+}
+.btn {
+  @apply bg-green-500 rounded-full px-3 py-1 text-xs font-semibold text-white  hover:bg-green-700 focus:outline-none;
 }
 </style>
