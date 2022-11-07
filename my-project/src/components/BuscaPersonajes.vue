@@ -13,7 +13,7 @@ export default {
       busqueda: "",
     };
   },
-  //controla si cambia la casilla de búsqueda y se emite al padre para que el hijo use ese dato
+  //controla si cambia la casilla de búsqueda y se emite al padre para que use ese dato
   watch: {
     busqueda: function () {
       this.$emit("busqueda", this.busqueda);
