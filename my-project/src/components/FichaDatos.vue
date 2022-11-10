@@ -80,7 +80,6 @@ export default {
                     datos = datos.filter((el) => el.name != this.nombreRecibido);
                     localStorage.setItem("favoritos", JSON.stringify(datos))
                     this.actualizacion = true;
-                    //si eliminamos en una búsqueda va a la pantalla de favoritos!!!!!!!!!!
                     // actualiza favoritos 
                     console.log(this.actualizarFavoritos);
                     if (this.actualizarFavoritos) {

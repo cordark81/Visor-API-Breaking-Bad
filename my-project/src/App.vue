@@ -1,7 +1,6 @@
 <template>
-      <div class="flex flex-row flex-wrap gap-5 bg-cover rounded-lg px-10 py-10 mt-10 mx-10 drop-shadow-2xl "
-      style="background-image: url(../imagenes/enhanced-1422-1590164550-2.jpg)">
-      
+      <div class="flex flex-row flex-wrap gap-5 bg-cover rounded-lg px-10 py-10 mt-10 mx-10 drop-shadow-2xl bg-[url('../imagenes/enhanced-1422-1590164550-2.jpg')]"
+      >      
       <BannerPrincipal />
       <SpinnerCarga v-if="this.spinnerActivo" />
       <div class="flex flex-col justify-around gap-5 lg:gap-05">
@@ -19,7 +18,7 @@
       </div>
     </div>
    <div class="grid place-items-center">
-    <div class="w-min mt-10 rounded-3xl drop-shadow-2xl" style="background-image: url(../../imagenes/bb.jpg)">
+    <div class="w-min mt-10 rounded-3xl drop-shadow-2xl  bg-[url('../imagenes/bb.jpg')]" >
       <h1 class=" px-5 text-center font-mono text-5xl text-amber-500">{{ cabecera }}</h1>
     </div>
   </div>
@@ -80,7 +79,7 @@ export default {
 
         (this.personajes.length === 0) ? this.exitoBusqueda = true : this.exitoBusqueda = false;
         this.spinnerActivo = false;
-        this.cabecera = "Resultados Busqueda"
+        this.cabecera = "Resultados Búsqueda"
       } catch (error) {
         console.log(error);
       }
